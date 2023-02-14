@@ -38,7 +38,7 @@ img {
 .flip-card {
   background: transparent;
   perspective: 1000px;
-  height: clamp(10px, 10vw, 100px);
+  height: clamp(10px, 19vw, 100px);
 }
 
 .flip-card-inner {
