@@ -12,12 +12,17 @@ body {
   background: linear-gradient(to right, #d17608, #ec3503);
   padding: clamp(20px, 5vw, 50px) 20px 10px;
 }
+
 .col {
-    margin-right: 10px;
-    width: 20%;
+  padding-right: 5px;
+  padding-left: 0;
+}
+.row-cols-4{
+  margin-top: 5px;
 }
 img {
     width: 100%;
+    height: 100%;
     padding: 10%;
     display: block;
     background-color: cornsilk;
@@ -30,7 +35,7 @@ img {
 .flip-card {
   background: transparent;
   perspective: 1000px;
-
+  height: clamp(10px , 10vw , 100px);
 }
 .flip-card-inner {
   position: relative;
@@ -41,9 +46,9 @@ img {
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
-// .flip-card .flip-card-inner {
-//   transform: rotateY(180deg);
-// }
+.flip-card:hover .flip-card-inner {
+  transform : scale(1.03)
+}
 
 .flip-card-front, .flip-card-back {
   position: absolute;
