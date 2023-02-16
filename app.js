@@ -40,7 +40,6 @@ function flipCardHandler(e){
             console.log('we can reset all cards');
             showInfo();
             showScore();
-            keydownLock = true;
         }, 1000);
     }
 }
@@ -60,7 +59,7 @@ function removeAllCard(){
         innerCard.style.transform = 'rotateY(0deg)';
         setTimeout(()=> {
             location.reload();
-        },1000);
+        },500);
     });
 }
 
@@ -147,9 +146,7 @@ function backCardsRotate(backCards,classFunction , rotation){
     }
 }
 
-let keydownLock = false;
 document.addEventListener('keydown', function(event) {
-    if(!keydownLock) return;
     if(event.key === ' '){
         console.log('reloading');
         removeAllCard();
