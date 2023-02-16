@@ -4,6 +4,7 @@ let randomFruit;
 let randomIndex;
 let count = {};
 
+
 console.log(images);
 function getRandomFruit() {
     images.forEach((image)=>{
@@ -31,15 +32,45 @@ flipCards.forEach (flipCard => {
 let lock = false;
 function flipCardHandler(e){
     if(lock) return;
+    if(e.target.closest('.flip-card-inner').classList.contains('flipped')) return;
     triggerFlipCard(e);
     eventCount(e);
+    if(checkIsAllCardOpen()){
+        setTimeout(()=>{
+            console.log('we can reset all cards');
+            showInfo();
+            showScore();
+            keydownLock = true;
+        }, 1000);
+    }
 }
+function showScore(){
+    document.getElementById("score").textContent = "Votre score est : " + (coups + 1);
+    document.getElementById("score").classList.add('fs-4');
+};
+function showInfo(){
+    document.getElementById("info").textContent = `appuyez sur le bouton "espace" pour recommencer`; 
+    document.getElementById("info").classList.add('fs-3');
+};
+
+function removeAllCard(){
+    let innerCards = document.querySelectorAll('.flip-card-inner');
+    innerCards.forEach(innerCard => {
+        innerCard.classList.remove('flipped');
+        innerCard.style.transform = 'rotateY(0deg)';
+        setTimeout(()=> {
+            location.reload();
+        },1000);
+    });
+}
+
 
 function triggerFlipCard(e){
     let flip = false;
     let innerCard = e.target.closest('.flip-card-inner');
     if(flip){
         innerCard.style.transform = 'rotateY(0deg)';
+        innerCard.classList.remove('flipped');
         flip = false;
     }else{
         flip = true;
@@ -52,16 +83,20 @@ function triggerFlipCard(e){
 let eventCounter = 0;
 let coups = 0;
 let backCards = {};
+
 function eventCount(e) {
     eventCounter++;
+    
     backCards[`image${eventCounter}`] = e.target.closest('.flip-card-inner');
+
     if (eventCounter === 2) {
         lock = true;
         coups++;
         console.log("coups: " + coups , "count: " + eventCounter);
         eventCounter = 0;
-        checkIsAllCardOpen();
         isCardEqual(e , backCards)
+        checkIsAllCardOpen();
+
     }
     return coups;
 }
@@ -74,13 +109,15 @@ function checkIsAllCardOpen() {
         allFliped = false;
         return; // Sort de la boucle dès qu'on trouve une carte non retournée
       }
+      
     });
     if (allFliped) {
         console.log('all cards are flipped');
+        return allFliped;
     } else {
       console.log('some cards are not flipped');
     }
-    return allFliped;
+    
   }
   
 function isCardEqual(e, backCards) {
@@ -107,24 +144,14 @@ function backCardsRotate(backCards,classFunction , rotation){
         if(classFunction){
             backCards[key].classList.remove('flipped');
         }
-        else {
-            backCards[key].classList.add('flipped');
-        }
     }
 }
 
-function keyDownHandler(e) {
-    if(e.key === 'Space'){
-        console.log('space pressed');
+let keydownLock = false;
+document.addEventListener('keydown', function(event) {
+    if(!keydownLock) return;
+    if(event.key === ' '){
+        console.log('reloading');
+        removeAllCard();
     }
-}
-
-
-// // if (checkIsAllCardOpen()) {
-// //     document.getElementById('info').textContent = `Bravo ! Appuyez sur "espace" pour relancer une partie.`
-// //     document.getElementById('score').textContent = "Votre score est de: ";
-// //     document.addEventListener('keydown', keyDownHandler);
-// //     flipCards.forEach (flipCard => {
-// //         flipCard.removeEventListener('click', flipCardHandler);
-// //     })
-// }
+})
