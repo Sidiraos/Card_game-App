@@ -45,11 +45,9 @@ function flipCardHandler(e){
 }
 function showScore(){
     document.getElementById("score").textContent = "Votre score est : " + (coups + 1);
-    document.getElementById("score").classList.add('fs-4');
 };
 function showInfo(){
     document.getElementById("info").textContent = `appuyez sur le bouton "espace" pour recommencer`; 
-    document.getElementById("info").classList.add('fs-3');
 };
 
 function removeAllCard(){
