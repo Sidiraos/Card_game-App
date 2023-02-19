@@ -50,18 +50,6 @@ function showInfo(){
     document.getElementById("info").textContent = `appuyez sur le bouton "espace" pour recommencer`; 
 };
 
-function removeAllCard(){
-    let innerCards = document.querySelectorAll('.flip-card-inner');
-    innerCards.forEach(innerCard => {
-        innerCard.classList.remove('flipped');
-        innerCard.style.transform = 'rotateY(0deg)';
-        setTimeout(()=> {
-            location.reload();
-        },500);
-    });
-}
-
-
 function triggerFlipCard(e){
     let flip = false;
     let innerCard = e.target.closest('.flip-card-inner');
@@ -144,9 +132,25 @@ function backCardsRotate(backCards,classFunction , rotation){
     }
 }
 
+function removeAllCard(){
+    let innerCards = document.querySelectorAll('.flip-card-inner');
+    innerCards.forEach(innerCard => {
+        innerCard.classList.remove('flipped');
+        innerCard.style.transform = 'rotateY(0deg)';
+        setTimeout(()=> {
+            location.reload();
+            lockKeyBoard = false;
+        },600);
+    });
+}
+
+let lockKeyBoard = false;
 document.addEventListener('keydown', function(event) {
+    if (lockKeyBoard) return;
     if(event.key === ' '){
         console.log('reloading');
+        lockKeyBoard = true;
+        lock=true;
         removeAllCard();
     }
 })
